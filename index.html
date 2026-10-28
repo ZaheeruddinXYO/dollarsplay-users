@@ -81,5 +81,14 @@ function showPage(id){ document.querySelectorAll('.page').forEach(p=>p.classList
 function completeProfile(){ document.getElementById('loginPage').style.display='none'; document.getElementById('mainApp').style.display='block'; showPage('dashboard'); }
 function sendGift(){ if(coins<need){ alert('Abhi '+need+' coins chahiye!'); return; } if(confirm('Send Gift to 3 Uplines?')){ alert('🎁 Gift Sent! You will Receive 125x! 👑'); coins=0; } }
 </script>
+  <script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => console.log('SW Registered'))
+      .catch(err => console.log('SW Failed', err));
+  });
+}
+  </script>
 </body>
   </html>
