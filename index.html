@@ -1,62 +1,158 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>DollarsPlay</title>
+<title>Dollars Play</title>
 <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a1210">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui;}
-body{background:#0a1f44;color:white;height:100vh;overflow:hidden;}
-.header{height:65px;background:#0d2754;display:flex;justify-content:space-between;align-items:center;padding:0 15px;border-bottom:2px solid #d4af37;}
-.main{height:calc(100vh - 135px);overflow-y:auto;padding:15px;}
-.card{background:linear-gradient(145deg,#132f62,#0f254d);border:1px solid #d4af37;border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 4px 15px rgba(0,0,0,0.3);}
-.gift-wrap{text-align:center;padding:25px;}
-.gift-btn{width:140px;height:140px;border-radius:50%;background:#1a1a1a;border:4px solid #444;margin:0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.gift-btn.active{background:radial-gradient(circle,#00ff88,#00a85a);border-color:#00ff88;box-shadow:0 0 25px #00ff88;}
-.bottom-nav{height:70px;background:#081a38;border-top:2px solid #d4af37;display:flex;justify-content:space-around;align-items:center;position:fixed;bottom:0;width:100%;}
-.nav-item{flex:1;text-align:center;color:#8a9cc0;font-size:12px;font-weight:bold;}
-.nav-item.active{color:#d4af37;}
-.nav-item span{font-size:26px;display:block;}
-.page{display:none;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui;}
+body{background:#060d0a;color:#fff;overflow-x:hidden;}
+.app{max-width:420px;margin:0 auto;background:#0a1210;min-height:100vh;position:relative;padding-bottom:75px;}
+.top{padding:12px 16px;display:flex;justify-content:space-between;align-items:center;}
+.balance-card{margin:12px 16px;background:linear-gradient(135deg,#10211a,#1a3328);border:1px solid #2a4a3a;border-radius:14px;padding:14px;}
+.balance-card h3{color:#8fbc8f;font-size:13px;}
+.balance-card h1{color:#e6c86a;font-size:26px;margin:4px 0;}
+.games-header{display:flex;justify-content:space-between;padding:0 16px;margin-top:10px;}
+.game-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:12px 16px;}
+.game-item{background:#141f1a;border:1px solid #223328;border-radius:12px;padding:12px 6px;text-align:center;}
+.game-item b{font-size:22px;display:block;}
+.game-item p{font-size:11px;margin-top:4px;font-weight:bold;}
+.game-item small{font-size:9px;color:#8fbc8f;}
+.btn{width:100%;background:linear-gradient(90deg,#5fcf8a,#e6c86a);color:#000;border:none;padding:13px;border-radius:10px;font-weight:bold;font-size:16px;margin-top:10px;}
+.input{width:100%;background:#0f1a15;border:1px solid #c9a86a55;padding:12px 14px;border-radius:10px;color:#fff;margin-top:6px;}
+.label{font-size:13px;color:#a3c9a3;margin-top:12px;display:block;}
+.page{display:none;min-height:100vh;}
 .page.active{display:block;}
-.btn-gold{width:100%;background:linear-gradient(90deg,#d4af37,#ffdf6e);color:#0a1f44;border:none;padding:14px;border-radius:12px;font-weight:bold;font-size:15px;margin-top:10px;}
-input,select{width:100%;padding:13px;border-radius:10px;border:1px solid #d4af37;background:#0a1f44;color:white;margin-top:5px;}
-label{font-size:12px;color:#d4af37;}
+.bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:420px;height:68px;background:#0e1a14;border-top:1px solid #c9a86a44;display:flex;justify-content:space-around;align-items:center;z-index:100;}
+.nav{flex:1;text-align:center;color:#6b8a7a;font-size:10px;font-weight:bold;}
+.nav.active{color:#e6c86a;}
+.nav span{font-size:20px;display:block;}
+.wallet-balance{text-align:center;padding:20px;}
+.trans-row{display:flex;justify-content:space-between;padding:10px 16px;border-bottom:1px solid #1a2a20;font-size:13px;}
+.pay-method{margin:8px 16px;background:#141f1a;border:1px solid #2a3a2e;border-radius:10px;padding:12px;display:flex;justify-content:space-between;align-items:center;}
+.pay-method.active{border-color:#e6c86a;}
+.chat-msg{display:flex;gap:10px;padding:10px 16px;}
+.avatar{width:36px;height:36px;border-radius:50%;background:#e6c86a;color:#000;display:flex;align-items:center;justify-content:center;font-weight:bold;}
+.level-bar{margin:10px 16px;background:#141f1a;border-radius:10px;padding:12px;border:1px solid #c9a86a44;}
+.level-item{display:flex;justify-content:space-between;padding:8px;background:#0f1a15;border-radius:8px;margin:6px 0;font-size:12px;border:1px solid #1f2f25;}
+.badge{padding:3px 8px;border-radius:6px;font-size:10px;font-weight:bold;}
+.unlocked{background:#22c55e33;color:#22c55e;border:1px solid #22c55e;}
+.current{background:#e6c86a;color:#000;}
+.locked{background:#333;color:#888;}
 </style>
 </head>
 <body>
-<div class="header">
-<div style="display:flex;gap:10px;align-items:center;"><img src="icon.png" style="width:40px;height:40px;border-radius:50%;border:2px solid #d4af37;"><div><b style="color:#d4af37;font-size:14px;">User Name</b><br><span style="font-size:10px;">ID: DP-12345</span></div></div>
-<div style="background:#d4af37;color:#0a1f44;padding:5px 12px;border-radius:20px;font-weight:bold;font-size:12px;">🪙 850</div>
+<div class="app">
+
+<!-- LOGIN PAGE -->
+<div id="login" class="page active">
+<div style="padding:30px 20px;text-align:center;">
+<div style="font-size:32px;">🪙<b style="color:#e6c86a;"> Dollars Play</b></div>
+<p style="color:#8fbc8f;font-size:13px;margin-top:4px;">Play. Earn. Win Real Rewards.</p>
+<h2 style="margin-top:25px;">Create Account</h2>
+<p style="font-size:12px;color:#8fbc8f;margin-top:6px;">Join Dollars Play to start playing & earning real cash rewards</p>
+<label class="label">Email</label><input class="input" placeholder="you@example.com">
+<label class="label">Password</label><input class="input" type="password" placeholder="••••••••">
+<button class="btn" onclick="showPage('home')">Sign Up</button>
+<p style="text-align:center;margin-top:15px;font-size:13px;color:#aaa;">Already have an account? <b style="color:#e6c86a;text-decoration:underline;" onclick="showPage('home')">Sign In</b></p>
+<p style="text-align:center;margin-top:10px;font-size:12px;color:#666;">OR</p>
+<div style="margin-top:10px;"><button style="width:100%;background:transparent;border:1px solid #444;color:#fff;padding:12px;border-radius:10px;">G Continue with Google</button></div>
+<div style="margin-top:8px;"><button style="width:100%;background:transparent;border:1px solid #444;color:#fff;padding:12px;border-radius:10px;">f Continue with Facebook</button></div>
+<p style="font-size:10px;color:#555;margin-top:15px;text-align:center;">256-bit Secure • Fair Play Certified</p>
+</div>
 </div>
 
-<div class="main">
-<div id="dashboard" class="page active">
-<div class="card"><b style="color:#d4af37;">👋 Welcome Malik!</b><br><span style="font-size:11px;opacity:0.7;">Level 5 | Keep Playing to Earn</span></div>
-<div class="card gift-wrap"><div id="giftBtn" class="gift-btn"><div style="font-size:48px;">🎁</div><b>GIFT</b></div><p style="margin-top:12px;color:#d4af37;font-size:12px;">Send One Time Gift & Get 125x Back</p><p style="font-size:10px;margin-top:5px;opacity:0.6;">850 / 1000 Coins</p></div>
-<div class="card"><b>🔗 Upline Chain</b><br><span style="font-size:11px;">Upline 1: Ali (DP-1001)<br>Upline 2: Zain<br>Upline 3: Omar</span></div>
-<div class="card"><b>🎮 Quick Play</b><br><button class="btn-gold">Play Game & Earn Coins</button></div>
+<!-- HOME PAGE -->
+<div id="home" class="page">
+<div class="top"><div><b style="color:#e6c86a;">$ Dollars Play</b></div><div style="display:flex;gap:12px;"><span>🔔</span><span>👤</span></div></div>
+<div class="balance-card"><h3>Available Balance</h3><h1>10,000 Coins</h1><p style="font-size:12px;color:#8fbc8f;">≈ $10 • 2800 PKR</p></div>
+<div class="games-header"><b>Games For You</b><span style="color:#e6c86a;font-size:12px;">See all ></span></div>
+<div class="game-grid">
+<div class="game-item"><b>🎡</b><p>Spin Wheel</p><small>Win up to 500 coins</small></div>
+<div class="game-item"><b>🎲</b><p>Dice Roll</p><small>Multiplier x2 • Quick</small></div>
+<div class="game-item"><b>🃏</b><p>Scratch Card</p><small>Instant Cashback</small></div>
+<div class="game-item"><b>🎡</b><p>Spin Wheel</p><small>Up to 500 coins</small></div>
+<div class="game-item"><b>🃏</b><p>Scratch Card</p><small>Easy & Coins</small></div>
+<div class="game-item"><b>🎮</b><p>Quiz Battle</p><small>Play & Earn Coins</small></div>
+</div>
 </div>
 
-<div id="wallet" class="page"><div class="card" style="text-align:center;"><img src="icon.png" style="width:80px;border-radius:50%;border:3px solid #d4af37;"><h2 style="margin-top:10px;">S Zaheeruddin</h2><p style="color:#d4af37;">DP-12345</p><h1 style="color:#d4af37;margin-top:15px;">🪙 850 Coins</h1><p style="font-size:11px;">= $8.5 USD = 2380 PKR</p></div></div>
-<div id="withdrawal" class="page"><div class="card"><h3>💸 Withdraw</h3><label>Method</label><select><option>JazzCash</option><option>Easypaisa</option><option>Binance</option></select><label style="margin-top:10px;display:block;">Account</label><input placeholder="03XXXXXXXXX"><label>Coins</label><input type="number" placeholder="Min 500"><button class="btn-gold">Request Withdraw</button></div></div>
-<div id="profile" class="page"><div class="card"><h3>👤 Profile</h3><label>Name</label><input value="S Zaheeruddin Sabir"><label style="margin-top:10px;display:block;">Nick</label><input placeholder="Malik"><button class="btn-gold">Save</button></div></div>
-<div id="support" class="page"><div class="card"><h3>💬 Support</h3><div style="height:250px;background:#0003;border-radius:10px;padding:10px;margin-top:10px;font-size:12px;">👑 Admin: Welcome Malik!</div><div style="display:flex;gap:8px;margin-top:10px;"><input placeholder="Message..."><button style="background:#d4af37;border:none;padding:0 15px;border-radius:10px;">Send</button></div></div></div>
+<!-- WALLET PAGE -->
+<div id="wallet" class="page">
+<div class="top"><span onclick="showPage('home')">←</span><b>Wallet</b><span>◷</span></div>
+<div class="wallet-balance"><p style="color:#8fbc8f;font-size:13px;">My Coins Balance</p><h1 style="color:#e6c86a;font-size:32px;">10,000 Coins</h1><div style="background:#141f1a;padding:8px 12px;border-radius:20px;display:inline-flex;gap:15px;margin-top:10px;font-size:13px;"><span>💲 $10 USD</span><span>=</span><span>🇵🇰 2800 PKR</span></div><div style="display:flex;gap:10px;margin-top:15px;"><button class="btn" style="flex:1;">+ Deposit</button><button class="btn" style="flex:1;background:transparent;border:1px solid #e6c86a;color:#e6c86a;">Withdraw</button></div></div>
+<h3 style="padding:0 16px;margin-top:10px;font-size:14px;">Transaction History</h3>
+<div class="trans-row"><span>🟢 Reward - Spin Wheel Win<br><small style="color:#777;">Today • 2:34 PM</small></span><span style="color:#22c55e;">+250 Coins</span></div>
+<div class="trans-row"><span>🔴 Withdrawal - Easypaisa<br><small style="color:#777;">Yesterday • 7:12 PM</small></span><span style="color:#ef4444;">-1,000 Coins (-$1)</span></div>
+<div class="trans-row"><span>🟢 Referral Bonus<br><small style="color:#777;">Yesterday • 11:20 AM</small></span><span style="color:#22c55e;">+500 Coins</span></div>
 </div>
 
+<!-- WITHDRAWAL PAGE -->
+<div id="withdraw" class="page">
+<div class="top"><span onclick="showPage('wallet')">←</span><b>Withdrawal</b><span></span></div>
+<p style="padding:0 16px;color:#8fbc8f;font-size:13px;margin-top:10px;">Choose Payment Method</p>
+<div class="pay-method active"><span><b>Easypaisa</b><br><small>Easypaisa Wallet • Instant</small></span><span>◉</span></div>
+<div class="pay-method"><span><b>JazzCash</b><br><small>JazzCash Wallet • Instant</small></span><span>○</span></div>
+<div class="pay-method"><span><b>Binance</b><br><small>Binance • USDT Withdrawal</small></span><span>○</span></div>
+<div style="padding:16px;"><p style="font-size:13px;color:#aaa;">Withdrawal Amount</p><h2>5000 Coins</h2><p style="font-size:12px;color:#e6c86a;">≈ $5 • 1400 PKR</p><p style="font-size:11px;color:#777;margin-top:6px;">Minimum: 2000 Coins • Fee: 50 Coins • Processing: 5-10 mins</p><button class="btn">Withdraw 5000 Coins</button></div>
+</div>
+
+<!-- CHATROOM PAGE -->
+<div id="chat" class="page">
+<div class="top"><span>💬</span><b>Chatroom</b><span style="font-size:11px;color:#22c55e;">● 1,254 online</span></div>
+<div class="chat-msg"><div class="avatar" style="background:#e6c86a;">C</div><div style="background:#141f1a;padding:8px 12px;border-radius:10px;flex:1;"><b style="color:#e6c86a;font-size:13px;">CryptoKing_22</b><p style="font-size:12px;">Just won 500 coins on Spin Wheel! 🎉</p><small style="font-size:10px;color:#777;float:right;">2:30 PM</small></div></div>
+<div class="chat-msg"><div class="avatar" style="background:#5fcf8a;">L</div><div style="background:#141f1a;padding:8px 12px;border-radius:10px;flex:1;"><b style="color:#fff;font-size:13px;">LuckyStar</b><p style="font-size:12px;">Nice! I got 200 from Quiz Battle</p><small style="font-size:10px;color:#777;float:right;">2:31 PM</small></div></div>
+<div style="text-align:center;margin:20px;"><span style="border:1px solid #e6c86a;padding:6px 12px;border-radius:20px;font-size:12px;">You poked AlexPkr!</span></div>
+<div style="position:fixed;bottom:70px;left:50%;transform:translateX(-50%);width:100%;max-width:420px;display:flex;gap:8px;padding:10px;background:#0a1210;"><input class="input" placeholder="Type your message..." style="margin:0;"><button style="background:#e6c86a;color:#000;border:none;padding:0 18px;border-radius:10px;font-weight:bold;">👆 POKE</button></div>
+</div>
+
+<!-- LEVELS PAGE -->
+<div id="levels" class="page">
+<div class="top"><span onclick="showPage('chat')">←</span><b>Levels</b><span>🏆</span></div>
+<div class="level-bar"><p style="color:#e6c86a;font-size:13px;">Your Level: 2 Explorer</p><div style="background:#222;height:6px;border-radius:3px;margin:8px 0;"><div style="width:40%;height:100%;background:#e6c86a;border-radius:3px;"></div></div><p style="font-size:11px;color:#888;text-align:center;">10,000 / 25,000 XP to Level 3</p></div>
+<h3 style="padding:0 16px;font-size:14px;margin-top:10px;">Level Benefits • 50-50 Income Split</h3>
+<div style="padding:0 16px;">
+<div class="level-item"><span><b>LV.1 Beginner</b><br><small>50-50 Income: Earn 50% of referral earnings</small></span><span class="badge unlocked">UNLOCKED</span></div>
+<div class="level-item"><span><b>LV.2 Explorer</b><br><small>50-50 Income: +10% bonus on game winnings</small></span><span class="badge current">CURRENT</span></div>
+<div class="level-item"><span><b>LV.3 Pro</b><br><small>50-50 Income: Unlock exclusive games</small></span><span class="badge locked">LOCKED</span></div>
+<div class="level-item"><span><b>LV.4 Elite</b><br><small>50-50 Income: 25% cashback on withdrawals</small></span><span class="badge locked">LOCKED 🔒</span></div>
+<div class="level-item"><span><b>LV.5 Legend</b><br><small>50-50 Income: VIP support & max rewards</small></span><span class="badge locked">LOCKED</span></div>
+</div>
+</div>
+
+<!-- PROFILE PAGE -->
+<div id="profile" class="page">
+<div class="top"><span>⚙️</span><b>Profile</b><span>✏️</span></div>
+<div style="text-align:center;padding:20px;"><div style="width:60px;height:60px;background:#e6c86a;color:#000;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto;">$</div><h3 style="margin-top:10px;">Player_786</h3><span style="background:#1a2a1a;padding:3px 10px;border-radius:12px;font-size:11px;border:1px solid #e6c86a;">Level 2 - Explorer</span><p style="font-size:12px;color:#888;margin-top:4px;">player786@email.com</p><div style="display:flex;gap:8px;justify-content:center;margin-top:12px;"><div style="background:#141f1a;border:1px solid #c9a86a44;padding:8px 12px;border-radius:8px;text-align:center;"><b>10,000</b><br><small>Coins</small></div><div style="background:#141f1a;border:1px solid #c9a86a44;padding:8px 12px;border-radius:8px;text-align:center;"><b>23</b><br><small>Games</small></div><div style="background:#141f1a;border:1px solid #c9a86a44;padding:8px 12px;border-radius:8px;text-align:center;"><b>5</b><br><small>Referrals</small></div></div></div>
+<div style="padding:0 16px;">
+<h4>Account Settings</h4>
+<div style="margin-top:10px;font-size:13px;line-height:32px;">👤 Personal Info > <br>🔒 Security & 2FA ><br>🎁 Refer & Earn <span style="background:#e6c86a;color:#000;padding:2px 8px;border-radius:10px;font-size:10px;">+500 Coins Bonus</span><br>🛡️ Support Center ><br><br>🔔 Notifications 🌙 Dark Mode [ON]<br><br><button class="btn" style="background:#e6c86a;color:#000;">🛡️ Logout</button></div>
+</div>
+</div>
+
+<!-- BOTTOM NAV -->
 <div class="bottom-nav">
-<div class="nav-item active" onclick="showPage('dashboard',this)"><span>🏠</span>Home</div>
-<div class="nav-item" onclick="showPage('wallet',this)"><span>💰</span>Wallet</div>
-<div class="nav-item" onclick="showPage('withdrawal',this)"><span>💸</span>Withdraw</div>
-<div class="nav-item" onclick="showPage('profile',this)"><span>👤</span>Profile</div>
-<div class="nav-item" onclick="showPage('support',this)"><span>💬</span>Support</div>
+<div class="nav active" onclick="showPage('home',this)"><span>🏠</span>Home</div>
+<div class="nav" onclick="showPage('wallet',this)"><span>💼</span>Wallet</div>
+<div class="nav" onclick="showPage('withdraw',this)"><span>💸</span>Withdraw</div>
+<div class="nav" onclick="showPage('chat',this)"><span>💬</span>Chat</div>
+<div class="nav" onclick="showPage('profile',this)"><span>👤</span>Profile</div>
 </div>
 
+</div>
 <script>
-function showPage(id,el){ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active')); document.getElementById(id).classList.add('active'); document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active')); if(el) el.classList.add('active'); }
-if('serviceWorker' in navigator){ navigator.serviceWorker.register('./sw.js'); }
-let coins=850; if(coins>=1000) document.getElementById('giftBtn').classList.add('active');
+function showPage(id,el){
+document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+if(el){
+document.querySelectorAll('.nav').forEach(n=>n.classList.remove('active'));
+el.classList.add('active');
+}
+window.scrollTo(0,0);
+}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js');}
 </script>
 </body>
-                                                                                                                      </html>
+</html>
